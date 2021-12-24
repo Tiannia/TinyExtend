@@ -1,0 +1,35 @@
+
+TINY Syntax Analyse!
+
+TINY Syntax tree:
+  Read: x
+  If
+    Op: or
+      Op: and
+        Op: not
+          Op: >=
+            Id: x
+            Const: 0
+        Op: <
+          Id: x
+          Const: 7
+      Op: not
+        Op: or
+          Op: >
+            Id: x
+            Const: 5
+          Op: <=
+            Id: x
+            Const: 11
+    For
+      Assign to: fact
+        Id: x
+      Const: 1
+      Assign to: fact
+        Op: +
+          Id: fact
+          Op: %
+            Id: x
+            Id: fact
+    Write
+      Id: fact

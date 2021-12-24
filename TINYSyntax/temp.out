@@ -1,0 +1,14 @@
+{ Sample program
+  in TINY language -
+  computes factorial
+}
+read x; { input an integer }
+if ( not (x >= 0) and (x < 7) or not (x > 5 or x <= 11) ) then
+  for fact = x downto 1 do
+      fact = fact + x % fact
+  enddo;
+  write fact  { output factorial of x }
+end
+
+
+
