@@ -229,7 +229,7 @@ vector<LL1Node> dealCommonGrammers(LL1Node node)
     return afterDeal;
 }
 
-//间接 再 直接
+
 void dealLeftCommonGrammers()
 {
     char beside = grammers[0].left;
@@ -293,6 +293,7 @@ void removeDirectLeftRecursion()
     }
 }
 
+//间接 再 直接
 void dealLeftRecursion()
 {
     for (int i = 0; i < grammers.size(); ++i)
