@@ -336,7 +336,7 @@ void MinDfa()
         }
         temp_acc.insert(cnt);
     }
-    AcceptStates = move(temp_acc);
+    AcceptStates = std::move(temp_acc);
 }
 
 #define lpb(x) lines.push_back(x)

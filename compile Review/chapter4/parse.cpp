@@ -230,7 +230,7 @@ TreeNode* regex_term(void) {
 
 TreeNode* regex_factor(void) {
   TreeNode* t = regex_letter();
-  if (token == RECLOSURE) {
+  while (token == RECLOSURE) {
     TreeNode* p = newExpNode(OpK);
     if ((p != NULL) && (token == RECLOSURE)) {
       p->attr.op = RECLOSURE;
