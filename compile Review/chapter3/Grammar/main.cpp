@@ -539,7 +539,7 @@ void analysisExp(string text)
                 else
                 {
                     msg = "match!";
-                    //printstep;
+                    //printstep; idx++;
                     stk.pop();
                 }
             }
@@ -551,11 +551,11 @@ void analysisExp(string text)
         else
         {
             int pos = getNodeFinalWordIndex(x);
-            if (!table[pos].count(x))
+            if (!table[pos].count(text[idx]))
             {
                 //call error;
             }
-            string msg = table[pos][x];
+            string msg = table[pos][text[idx]];
             string temp = msg.substr(3);
             //printstep;
             stk.pop();
