@@ -229,7 +229,7 @@ vector<LL1Node> dealCommonGrammers(LL1Node node)
     return afterDeal;
 }
 
-
+//间接 再 直接
 void dealLeftCommonGrammers()
 {
     char beside = grammers[0].left;
@@ -293,7 +293,6 @@ void removeDirectLeftRecursion()
     }
 }
 
-//间接 再 直接
 void dealLeftRecursion()
 {
     for (int i = 0; i < grammers.size(); ++i)
@@ -385,55 +384,61 @@ void makeFollowSet()
                 bool flag = true;
                 for (int j = right.size() - 1; j >= 0; --j)
                 {
+                    //逆序j
+                    //然后对每一个j，我们看它后面那一个符号
                     char word = right[j];
                     // A -> αBβ (put FISRT(β) but not @ in FOLLOW(B))
-                    if (j + 1 < right.size())
+                    if (nonfinalword.count(word))
                     {
-                        char nxtword = right[j + 1];
-                        // nxtword is nonfinalword
-                        if (nonfinalword.count(nxtword))
+                        if (flag)
                         {
-                            set<char> from = first[nxtword];
+                            //PUT FOLLOW(A) IN FOLLOW(B)
+                            set<char> from = follow[left];
                             set<char> &to = follow[word];
                             int before = to.size();
                             for (auto it : from)
                             {
-                                if (it != '@')
-                                    to.insert(it);
+                                to.insert(it);
                             }
                             if (to.size() > before)
                                 KEEPGOING = true;
-
-                            //if "from" contain @ we goto step3,
-                            //put follow(A) into follow(B)
-                            //else we cant move anymore
-                            if (from.count('@') && flag)
-                                goto step3;
-                            else
+                            if (!first[word].count('@')) //因为是倒序遍历，所以当前符号不包含@的话，后面也就不能执行这个步骤了
                                 flag = false;
                         }
-                        // nxtword is finalword
-                        else
+                        while (j + 1 < right.size())
                         {
-                            int before = follow[word].size();
-                            follow[word].insert(nxtword);
-                            if (follow[word].size() > before)
-                                KEEPGOING = true;
+                            char nxtword = right[j + 1]; //我们来看看下一个字符吧~
+                            // nxtword is nonfinalword
+                            if (nonfinalword.count(nxtword))
+                            {
+                                set<char> from = first[nxtword];
+                                set<char> &to = follow[word];
+                                int before = to.size();
+                                for (auto it : from)
+                                {
+                                    if (it != '@')
+                                        to.insert(it);
+                                }
+                                if (to.size() > before)
+                                    KEEPGOING = true;
+                                if (!from.count('@'))  //有@才能继续放入First(j+1)
+                                    break;
+                            }
+                            // nxtword is finalword
+                            else
+                            {
+                                int before = follow[word].size();
+                                follow[word].insert(nxtword);
+                                if (follow[word].size() > before)
+                                    KEEPGOING = true;
+                                break;
+                            }
+                            j++;
                         }
                     }
                     else
                     {
-                    step3:
-                        //PUT FOLLOW(A) IN FOLLOW(B)
-                        set<char> from = follow[left];
-                        set<char> &to = follow[word];
-                        int before = to.size();
-                        for (auto it : from)
-                        {
-                            to.insert(it);
-                        }
-                        if (to.size() > before)
-                            KEEPGOING = true;
+                        flag = false;
                     }
                 }
             }
@@ -539,7 +544,7 @@ void analysisExp(string text)
                 else
                 {
                     msg = "match!";
-                    //printstep; idx++;
+                    //printstep;
                     stk.pop();
                 }
             }
@@ -568,4 +573,3 @@ void analysisExp(string text)
         }
     }
 }
-
